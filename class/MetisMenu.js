@@ -27,7 +27,7 @@ const MetisMenu = (($) => {
         SHOW: `show${EVENT_KEY}`,
         SHOWN: `shown${EVENT_KEY}`,
         HIDE: `hide${EVENT_KEY}`,
-        HIDEN: `hiden${EVENT_KEY}`,
+        HIDDEN: `hidden${EVENT_KEY}`,
         CLICK_DATA_API: `click${EVENT_KEY}${DATA_API_KEY}`
     };
 
@@ -48,7 +48,7 @@ const MetisMenu = (($) => {
                 .has(this._config.subMenu)
                 .children(this._config.subMenu)
                 .attr('aria-expanded', true)
-                .addClass(this._config.collapseClass + ' ' + this._config.collpaseInClass);
+                .addClass(this._config.collapseClass + ' ' + this._config.collapseInClass);
             $(this._element)
                 .find(this._config.parentTrigger)
                 .not('.' + this._config.activeClass)
@@ -69,7 +69,7 @@ const MetisMenu = (($) => {
                         e.preventDefault();
                     }
 
-                    if (_this.attr('aria-disabled') == 'true') {
+                    if (_this.attr('aria-disabled') === 'true') {
                         return;
                     }
 
@@ -85,7 +85,7 @@ const MetisMenu = (($) => {
                     }
 
                     if (self._config.onTransitionStart) {
-                        slef._config.onTransitionStart(e);
+                        self._config.onTransitionStart(e);
                     }
                 });
         }
@@ -121,19 +121,19 @@ const MetisMenu = (($) => {
 
             _el
                 .removeClass(this._config.collapseClass)
-                .addClass(this._config.collaspingClass)
+                .addClass(this._config.collapsingClass)
                 .height(0);
             this.setTransitioning(true);
 
             let complete = function() {
                 // check if disposed
-                if (!_this.config || !_this.element) {
+                if (!_this._config || !_this.element) {
                     return;
                 }
 
                 _el
                     .removeClass(_this._config.collapsingClass)
-                    .addClass(_this._config.collapseClass + ' ' + _this._config.collpaseInClass)
+                    .addClass(_this._config.collapseClass + ' ' + _this._config.collapseInClass)
                     .height('')
                     .attr('aria-expanded', true);
                 _this.setTransitioning(false);
@@ -214,7 +214,7 @@ const MetisMenu = (($) => {
         dispose() {
             $.removeData(this._element, DATA_KEY);
             $(this._element)
-                .find(_this._config.parentTrigger)
+                .find(this._config.parentTrigger)
                 .has(this._config.subMenu)
                 .children(this._config.triggerElement)
                 .off('click');
@@ -232,7 +232,7 @@ const MetisMenu = (($) => {
         static _jQueryInterface(config) {
             return this.each(function() {
                 let $this = $(this);
-                let data = $(this).data(DATA_KEY);
+                let data = $this.data(DATA_KEY);
                 let _config = $.extend({}, Default, $this.data(), typeof config === 'object' && config);
                 // 这句不明白？？？
                 if (!data && /dispose/.test(config)) {
@@ -246,7 +246,7 @@ const MetisMenu = (($) => {
 
                 if (typeof config === 'string') {
                     if (data[config] === undefined) {
-                        throw new Error(`No method named "$(config)"`);
+                        throw new Error(`No method named "${config}"`);
                     }
                     data[config]();
                 }
@@ -257,7 +257,7 @@ const MetisMenu = (($) => {
     // jQuery
     $.fn[NAME] = MetisMenu._jQueryInterface;
     $.fn[NAME].Constructor = MetisMenu;
-    $.fn[NAME].onConflict = function() {
+    $.fn[NAME].noConflict = function() {
         $.fn[NAME] = JQUERY_NO_CONFLICT;
         return MetisMenu._jQueryInterface;
     };

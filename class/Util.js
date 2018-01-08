@@ -15,7 +15,7 @@ const Util = (($) => {
                 }
                 return undefined;
             }
-        }
+        };
     }
 
     // 过渡事件结束测试
@@ -39,6 +39,7 @@ const Util = (($) => {
                 Util.triggerTransitionEnd(this);
             }
         }, duration);
+        return this;
     }
 
     // 设置过渡结束事件支持
@@ -59,7 +60,7 @@ const Util = (($) => {
         supportsTransitionEnd() {
             return Boolean(transition);
         }
-    }
+    };
 
     setTransitionEndSupport();
     return Util;
